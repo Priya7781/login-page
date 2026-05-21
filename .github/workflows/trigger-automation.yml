@@ -1,4 +1,4 @@
-name: Trigger Playwright Automation
+name: Development Pipeline
 
 on:
   push:
@@ -6,11 +6,37 @@ on:
       - main
 
 jobs:
-  trigger-automation:
+
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Automation Repository
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Deploy Application
+        run: echo "Deploy your app here"
+
+  trigger-automation:
+    needs: build-and-deploy
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Trigger Automation Repo
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github+json" \
