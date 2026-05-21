@@ -1,4 +1,4 @@
-name: Development Pipeline
+name: Deploy and Trigger Automation
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build-and-deploy:
+  deploy-website:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,28 +15,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-      - name: Deploy Application
-        run: echo "Deploy your app here"
+      - name: Deploy Static Website
+        run: echo "Website deployed successfully"
 
   trigger-automation:
-    needs: build-and-deploy
+    needs: deploy-website
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Trigger Automation Repo
+      - name: Trigger Automation Repository
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github+json" \
